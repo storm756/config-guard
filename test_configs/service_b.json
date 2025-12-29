@@ -1,0 +1,1 @@
+{ "serviceName": "Payment", "port": 0, "replicas": 1 }
