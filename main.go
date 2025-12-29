@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"gopkg.in/yaml.v3"
 )
 
 func main() {
@@ -24,9 +25,10 @@ func main() {
 
 	rules := []Rule { PortRule{} , ReplicaRule{MinReplicas: 2}}
 	fmt.Printf("Scanning Directory: %s\n", *dirPtr)
-
+		
 	for _, file := range files {
-		if filepath.Ext(file.Name()) != ".json" {
+		ext := filepath.Ext(file.Name())
+		if ext != ".json" && ext != ".yaml" && ext != ".yml" {
 		continue 
 	}
 	wg.Add(1)
@@ -41,10 +43,19 @@ func main() {
 			return
 		}
 		var config Config
+		ext := filepath.Ext(fileName)
+		if ext == ".json" {
 		if err := json.Unmarshal(data, &config); err != nil {
 			resultsChannel <- ValidationResult{false , fmt.Sprintf("JSON Error: %s %s",fileName , err)}
 			 return
 		}
+	}  else if ext == ".yaml" || ext == ".yml" {
+		if err := yaml.Unmarshal(data, &config); err != nil {
+			resultsChannel <- ValidationResult{false,fmt.Sprintf("YAML error %s : %s", fileName, err)}
+			return
+		}
+
+	}
 		for _,rule := range rules {
 			valid , msg := rule.Validate(config)
 			resultsChannel <- ValidationResult{

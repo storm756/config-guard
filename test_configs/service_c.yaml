@@ -1,0 +1,3 @@
+serviceName: "Database"
+port: 5432
+replicas: 3

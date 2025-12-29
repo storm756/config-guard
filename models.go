@@ -2,10 +2,9 @@ package main
 
 
 type Config struct {
-	ServiceName string `json:"serviceName"`
-	Port int `json:"port"`
-	Replicas int `json:"replicas"`
-	Enabled bool `json:"enabled"`
+	ServiceName string `json:"serviceName" yaml:"serviceName"`
+	Port        int    `json:"port"        yaml:"port"`
+	Replicas    int    `json:"replicas"    yaml:"replicas"`
 }
 
 
