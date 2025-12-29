@@ -20,8 +20,8 @@ The application reads a directory of configuration files and spins up a lightwei
 go run . -dir=./test_configs
 ```
 🏗️ Architecture
+
 Input: Reads JSON configs (simulating Kubernetes manifests).
-Process:
-Spawns a Goroutine for every file.
+Process:Spawns a Goroutine for every file.
 Applies a slice of Rule interfaces (Port check, Replica check).
 Output: Aggregates Pass/Fail results via Channels.
